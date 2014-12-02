@@ -14,6 +14,11 @@ The following assumptions are made. Other scenarios may well be supported, but t
 * The target is of the same name as the project/workspace (which is the default in xCode)
 * You are using xCode v6.1.x
 
+Requirements
+------------
+* OS X, with standard developer tools install (xCode, PERL)
+* The *Term::Key* perl module. Install with `sudo cpan Term::Key`
+
 Installation
 ------------
 1. Make sure the `deploy.pl` script is copied to the root level of your project/workspace. I.e. the folder that contains your `.xcproject` file (which is really a directory).

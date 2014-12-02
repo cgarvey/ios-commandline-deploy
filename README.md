@@ -1,7 +1,7 @@
 iOS Command-line Deploy
 =======================
 
-This Bash script will compile your iOS app, and copy (SCP) it to a configured server.
+This Bash script will compile your iOS app, sign it, generate a `.plist` file suitable for Ad-hoc distribution, and copy (SCP) it to configured destinations.
 
 Please note, this script suits a very subjective build/release process that might not suit your project / organisation.
 
@@ -29,6 +29,7 @@ Installation
 	* Under the *login* keychain (top-left), search for the signing private key. It can be quite tricky to find. Also, note you can not use the search box, you have to navigate to the key. Searching for it, and selecting it won't allow you to change it (a *Keychain Access* bug). The signing key will be named like "iOS Distribution: My Company Inc." and it will have a *kind* of `private key` not `public key`)
 	* Double-click the matching private key to reveal its properties.
 	* Click the *Access Control* tab, select the option `Allow all applications access this item`, and save.
+1. Copy the Provisioning Profile you want to use (e.g. one you created for Ad-hoc distribution) to the root level directory. Make sure it is the **only** `.mobileprovision` file in the directory.
 
 Configuration
 -------------
@@ -43,6 +44,13 @@ Use the following configuration parameters (at the top of the script) to suit yo
 * **bundleID** The Bundle Identifier name for this app (you can get that from iTunes Connect, or from xCode under your targets > General tab)
 * **displayName** The user-friendly name to call the app (used in the Ad-hoc download confirmation prompt)
 * **sslURLBase** The URL to use (SSL is now a requirement for Ad-hoc distribution) where the user will be directed to when downloading. The generated app name will be appended to this URL, so make sure it has a trailing slash!
+* **changelogPath** The relative path to the changelog to copy alongside the app, if any. It is optional. If not specified (an empty string), then the app is still copied to both *scpDestWithChangelog* and *scpDestWithoutChangelog* destinations, if configured. The changelog, regardless of local name, is copied to the destination as projectslug_changelog.txt
+
+Usage
+-----
+The script takes one or two arguments. The first argument, required, is the version number (which should match your bundle number in xCode) and should only contain numbers and a period/full stop (e.g. 1.0.31).
+
+Optionally, you can run the script with a second argument, `nobuild`, to not build/sign the app, and just **scp** it to the configured destinations. It assumes the app built previously by this script still remains in the current directory.
 
 Common Problems
 ---------------
